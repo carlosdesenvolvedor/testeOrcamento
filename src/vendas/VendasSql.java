@@ -36,26 +36,7 @@ public class VendasSql {
             ps.setString(3, uc.getData());
             ps.setString(4, uc.getIdcli());
             ps.setString(5, uc.getTxtCampoObs());
-           /* ps.setString(4, uc.getLinha1());
-            ps.setString(5, uc.getLinha2());
-            ps.setString(6, uc.getLinha3());
-            ps.setString(7, uc.getLinha4());
-            ps.setString(8, uc.getLinha5());
-            ps.setString(9, uc.getLinha6());
-            ps.setString(10, uc.getLinha7());
-            ps.setString(11, uc.getLinha8());
-            ps.setString(12, uc.getLinha9());
-            ps.setString(13, uc.getLinha10());
-            ps.setString(14, uc.getLinha11());
-            ps.setString(15, uc.getLinha12());
-            ps.setString(16, uc.getLinha13());
-            ps.setString(17, uc.getLinha14());
-            ps.setString(18, uc.getLinha15());
-            ps.setString(19, uc.getLinha16());
-            ps.setString(20, uc.getLinha17());
-            ps.setString(21, uc.getLinha18());
-            ps.setString(22, uc.getLinha19());
-            ps.setString(23, uc.getLinha20());*/
+           
             
          
             rsu = ps.executeUpdate();
@@ -173,6 +154,8 @@ public class VendasSql {
             Logger.getLogger(VendasSql.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+   
+   //para modificar este código caso precise gerar numeros de outra forma
     public static void numeros1() {
         int j;
         int cont = 1;

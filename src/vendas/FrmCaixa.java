@@ -11,8 +11,11 @@ import com.lowagie.text.html.simpleparser.HTMLWorker;
 import com.lowagie.text.pdf.codec.Base64.InputStream;
 import com.mysql.cj.protocol.a.StringValueEncoder;
 import com.mysql.cj.xdevapi.Result;
+import static com.sun.mail.imap.protocol.Status.add;
 import com.sun.net.httpserver.HttpExchange;
+import static com.sun.tools.jdeps.VersionHelper.add;
 import java.awt.Desktop;
+import java.awt.List;
 import java.io.File;
 
 import java.net.URL;
@@ -21,8 +24,12 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -32,23 +39,19 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.html.FormView;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.view.JRDesignViewer;
-import net.sf.jasperreports.view.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
-import org.springframework.jdbc.support.JdbcUtils;
 import principal.GerarNumero;
 import static principal.MenuPrincipal.carregador;
 import principal.TelaCadastroCliente2;
 import produtos.FrmListaProd;
-import static vendas.FrmVendas.tabela;
 import static vendas.VendasSql.cn;
+
+
 
 /**
  *
@@ -75,16 +78,18 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         }
         return fechado;
     }
-      //Construtor
+    //Construtor
+
     public FrmCaixa() {
         initComponents();
         conexao = ModuloConexao.conector();
         FrmCaixa.tabela.getTableHeader().setDefaultRenderer(new principal.EstiloTabelaHeader());
         FrmCaixa.tabela.setDefaultRenderer(Object.class, new principal.EstiloTabelaRenderer());
-
+        
         FrmCaixa.tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         limparCampos();
     }
+    
 
     public static String dataAtual() {
         Date data = new Date();
@@ -109,9 +114,14 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         total.setText("0.0");
         data.setText("");
         data.setText(dataAtual());
-        
+
         VendasSql.numeros();
     }
+    void proximoPedido() {
+
+        VendasSql.numeros();
+    }
+
 
     private void consultarCliente() {
         // String sql = "select * from tbusuarios where iduser=?";
@@ -153,65 +163,54 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
     }
 
     private void gerarRelatorio(String codVenda) {
-        // String sql = "select * from tbusuarios where iduser=?";
+        
 
-        String sql = "SELECT"
-                + "     tborc.idlinha AS tborc_idlinha,"
-                + "     tborc.tipoProduto AS tborc_tipoProduto,"
-                + "     tborc.descricao AS tborc_descricao,"
-                + "     tborc.valor AS tborc_valor,"
-                + "     tborc.quantidade AS tborc_quantidade,"
-                + "     tborc.valortotal AS tborc_valortotal,"
-                + "     tborc.num_vem AS tborc_num_vem,"
-                + "     vendas.numero_ven AS vendas_numero_ven,"
-                + "     vendas.total_ven AS vendas_total_ven,"
-                + "     vendas.data_ven AS vendas_data_ven,"
-                + "     vendas.idcli AS vendas_idcli,"
-                + "     tbclientes.idcli AS tbclientes_idcli,"
-                + "     tbclientes.nome AS tbclientes_nome,"
-                + "     tbclientes.telefone AS tbclientes_telefone,"
-                + "     tbclientes.email AS tbclientes_email,"
-                + "     tbclientes.cep AS tbclientes_cep,"
-                + "     tbclientes.rua AS tbclientes_rua,"
-                + "     tbclientes.bairro AS tbclientes_bairro,"
-                + "     tbclientes.estado AS tbclientes_estado,"
-                + "     tbclientes.cidade AS tbclientes_cidade,"
-                + "     tbclientes.cpf AS tbclientes_cpf,"
-                + "     vendas.obs AS vendas_obs"
-                + "FROM"
-                + "     vendas vendas INNER JOIN tborc tborc ON vendas.numero_ven = tborc.num_vem"
-                + "     INNER JOIN tbclientes tbclientes ON vendas.idcli = tbclientes.idcli where tborc.num_vem = '" + codVenda + "'  ";
+        String sql = "SELECT\n" +
+"     tborc.`idlinha` AS tborc_idlinha,\n" +
+"     tborc.`tipoProduto` AS tborc_tipoProduto,\n" +
+"     tborc.`descricao` AS tborc_descricao,\n" +
+"     tborc.`valor` AS tborc_valor,\n" +
+"     tborc.`quantidade` AS tborc_quantidade,\n" +
+"     tborc.`valortotal` AS tborc_valortotal,\n" +
+"     tborc.`num_vem` AS tborc_num_vem,\n" +
+"     vendas.`numero_ven` AS vendas_numero_ven,\n" +
+"     vendas.`total_ven` AS vendas_total_ven,\n" +
+"     vendas.`data_ven` AS vendas_data_ven,\n" +
+"     vendas.`idcli` AS vendas_idcli,\n" +
+"     tbclientes.`idcli` AS tbclientes_idcli,\n" +
+"     tbclientes.`nome` AS tbclientes_nome,\n" +
+"     tbclientes.`telefone` AS tbclientes_telefone,\n" +
+"     tbclientes.`email` AS tbclientes_email,\n" +
+"     tbclientes.`cep` AS tbclientes_cep,\n" +
+"     tbclientes.`rua` AS tbclientes_rua,\n" +
+"     tbclientes.`bairro` AS tbclientes_bairro,\n" +
+"     tbclientes.`estado` AS tbclientes_estado,\n" +
+"     tbclientes.`cidade` AS tbclientes_cidade,\n" +
+"     tbclientes.`cpf` AS tbclientes_cpf,\n" +
+"     vendas.`obs` AS vendas_obs\n" +
+"FROM\n" +
+"     `vendas` vendas INNER JOIN `tborc` tborc ON vendas.`numero_ven` = tborc.`num_vem`\n" +
+"     INNER JOIN `tbclientes` tbclientes ON vendas.`idcli` = tbclientes.`idcli`\n" +
+"where tborc.num_vem = '" + codVenda + "'  ";
 
         try {
 
             pst = conexao.prepareStatement(sql);
-            
+            //pst.setString(1,lblvenda.getText());
+            rs = pst.executeQuery();
             JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
-            JasperReport relatorioCompilado;
-            relatorioCompilado = JasperCompileManager.compileReport("C:/Users/Plander/OneDrive/Documentos/NetBeansProjects/Arquivos/Arquivos Sistema Finalizado/sistema/src/reports/aula.jrxml");
-            
-            
-            
-            
             //caminho do relatório
             HashMap filtro = new HashMap();
-            filtro.put("num_ven", Integer.parseInt(lblvenda.getText()));
-
-            //InputStream caminhoRelatorio = (InputStream) this.getClass().getClassLoader().getResourceAsStream("reports/aula3.jrxml");
-
+            filtro.put("tborc.num_vem", lblvenda.getText());
+            System.out.println(codVenda);
             JasperPrint relatorioPreenchido;
-            relatorioPreenchido = JasperFillManager.fillReport(relatorioCompilado, filtro, jrRS);
-            //JDialog tela = new JDialog(this,"Relatorio do usuario",true);
-           // tela.setSize(1000,500);
-            //JRViewer painelRelatorio = new FormView((re))
+            InputStream caminhoRelatorio;
+            caminhoRelatorio = (InputStream) this.getClass().getClassLoader().getResourceAsStream("C:/Users/Plander/OneDrive/Documentos/NetBeansProjects/Arquivos/Arquivos Sistema Finalizado/sistema/src/reports/aula3.jasper");
+            relatorioPreenchido = JasperFillManager.fillReport(caminhoRelatorio, filtro, jrRS);
             
-            
-            
-          //  JasperPrint jasperPrint = JasperFillManager.fillReport(caminhoRelatorio, filtro, jrRS);
-            JasperExportManager.exportReportToPdfFile(relatorioPreenchido, "C:/Users/Plander/OneDrive/Ambiente de Trabalho/orçamentos/relatoriovenda.pdf");
-           
+            JasperExportManager.exportReportToPdfFile(relatorioPreenchido, "C:/Users/Plander/OneDrive/Ambiente de Trabalho/orcamentos/relatoriovenda.pdf");
 
-            File file = new File("C:/Users/PlanderOneDrive/Ambiente de Trabalho/orçamentos/relatoriovenda.pdf");
+            File file = new File("C:/Users/PlanderOneDrive/Ambiente de Trabalho/orcamentos/relatoriovenda.pdf");
             try {
                 Desktop.getDesktop().open(file);
 
@@ -288,9 +287,9 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                     Vendas v = new Vendas();
                     pst.setString(1, tipoDoProduto);
                     pst.setString(2, descricao);
-                    pst.setString(3, valorUnit);
+                    pst.setString(3, valorUnit.replace(".", ","));
                     pst.setString(4, quantidade);
-                    pst.setString(5, totalProduto);
+                    pst.setString(5, totalProduto.replace(".", ","));
 
                     pst.setString(6, FrmCaixa.lblvenda.getText());
 
@@ -316,6 +315,22 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         }
 
     }
+    private void imprimirOs() {
+       
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a impressão desta OS?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+            try {
+                HashMap filtro = new HashMap();
+                filtro.put("num_vem", lblvenda.getText());
+                JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("src/reports/aula4.jasper"), filtro, conexao);
+                JasperViewer.viewReport(print, false);
+                conexao.close();
+            } catch (NumberFormatException | SQLException | JRException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -335,14 +350,13 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         codigoL6 = new javax.swing.JLabel();
         troco = new app.bolivia.swing.JCTextField();
         codigoL7 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         calculo = new javax.swing.JButton();
         vender = new javax.swing.JButton();
         excluir = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -378,9 +392,13 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         jButton8 = new javax.swing.JButton();
         jLabel37 = new javax.swing.JLabel();
         lblIdcli = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         lblvenda = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Caixa");
@@ -442,6 +460,14 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         codigoL7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/valores.png"))); // NOI18N
         codigoL7.setToolTipText("CAMBIO");
         jPanel2.add(codigoL7, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 10, -1, 52));
+
+        jButton5.setText("Recalcular");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 30, -1, -1));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "OPÇÕES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
@@ -512,21 +538,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton3.setText("Imprimir");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("provisorio");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("limpar campos");
+        jButton4.setText("Novo Orçamento");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -545,18 +557,15 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                             .addComponent(calculo)
                             .addComponent(excluir)
                             .addComponent(vender)
-                            .addComponent(cancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                            .addGap(12, 12, 12)
+                            .addComponent(jButton1))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(60, 60, 60))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -572,12 +581,8 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton4)
-                .addContainerGap())
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -593,7 +598,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                true, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -606,7 +611,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
         jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 790, 170));
 
-        total.setEditable(false);
+        total.setEditable(true);
         total.setBackground(new java.awt.Color(34, 102, 145));
         total.setBorder(null);
         total.setForeground(new java.awt.Color(255, 255, 255));
@@ -620,7 +625,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
         jScrollPane2.setViewportView(txtCampoObs);
 
-        jPanel4.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 540, 80));
+        jPanel4.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 550, 80));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -696,6 +701,27 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         lblIdcli.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblIdcli.setText("no");
 
+        jButton3.setText("Orquestral Imprimir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("S.C imprimir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("M.R imprimir");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -714,7 +740,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -723,24 +749,32 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton8)
+                        .addGap(136, 136, 136))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(lblTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel26)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton8)
-                        .addGap(136, 136, 136))))
+                        .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel37)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblIdcli, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel5Layout.createSequentialGroup()
                     .addContainerGap()
@@ -790,7 +824,12 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel37)
                     .addComponent(lblIdcli))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton2)
+                    .addComponent(jButton9))
+                .addContainerGap())
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel5Layout.createSequentialGroup()
                     .addGap(64, 64, 64)
@@ -821,6 +860,14 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         lblvenda.setText("0");
         jPanel6.add(lblvenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 120, -1));
 
+        jButton7.setText("proximo");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -829,7 +876,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 922, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -888,6 +935,8 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_buscaActionPerformed
 
     private void calculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculoActionPerformed
+       FrmListaProd cal = new FrmListaProd();
+       cal.calcular();
         if (tabela.getRowCount() < 1) {
             JOptionPane.showMessageDialog(this, "Operação não realizada.", "Erro", JOptionPane.ERROR_MESSAGE);
         } else if (recebido.getText().equals("")) {
@@ -903,7 +952,9 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             } else {
                 this.troco.setText(String.valueOf(recebi - tot));
             }
+            
         }
+        
     }//GEN-LAST:event_calculoActionPerformed
 
     private void venderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_venderActionPerformed
@@ -977,7 +1028,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             int opc = VendasSql.registrar(v);
             adicionarLnha();
             if (opc != 0) {
-                
+
                 //limparCampos();
                 JOptionPane.showMessageDialog(this, "Orçamento efeturado.", "orçamento", 0,
                         new ImageIcon(getClass().getResource("/imagens/usuarios/info.png")));
@@ -990,17 +1041,25 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        int confirma = JOptionPane.showConfirmDialog(null, "confima impreção do orçamento", "Atenção", JOptionPane.YES_NO_OPTION);
+        
+        int confirma = JOptionPane.showConfirmDialog(null, "confima impreção do orcamento", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
-            try {
-                //JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
-                //usando a classe JasperPrint para prepara a impressão de um relatorio
+                
+            try 
+            {
+            //pst.setString(1,lblvenda.getText());
+           
                 HashMap filtro = new HashMap();
-                filtro.put("num_ven", Integer.parseInt(lblvenda.getText()));
-
-                JasperPrint print = JasperFillManager.fillReport("C:\\reports.jasper", filtro, conexao);
-                JasperExportManager.exportReportToPdfFile(print, "C:\\Users\\Plander\\OneDrive\\Ambiente de Trabalho\\orçamentos");
+                filtro.put("num_vem", lblvenda.getText());
+                //usando a classe JasperPrint para prepara a impressão de um relatorio
+                JasperPrint print = JasperFillManager.fillReport("src/reports/aula3.jasper",
+                        filtro, conexao);
+                
+               
+                
                 //a linha abaixo exibe o relatório através da classe JasperViewer
+                
+                
                 JasperViewer.viewReport(print, false);
 
             } catch (Exception e) {
@@ -1009,17 +1068,84 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
         }
 
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        gerarRelatorio(lblvenda.getText());
+        int confirma = JOptionPane.showConfirmDialog(null, "confima impreção do orcamento", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+                
+            try 
+            {
+            //pst.setString(1,lblvenda.getText());
+           
+                HashMap filtro = new HashMap();
+                filtro.put("num_vem", lblvenda.getText());
+                //usando a classe JasperPrint para prepara a impressão de um relatorio
+                JasperPrint print = JasperFillManager.fillReport("src/reports/aula6.jasper",
+                        filtro, conexao);
+                
+               
+                
+                //a linha abaixo exibe o relatório através da classe JasperViewer
+                
+                
+                JasperViewer.viewReport(print, false);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+
+        }
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         limparCampos();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        FrmListaProd cal = new FrmListaProd();
+         cal.calcular();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        proximoPedido();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+         int confirma = JOptionPane.showConfirmDialog(null, "confima impreção do orcamento", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+                
+            try 
+            {
+            //pst.setString(1,lblvenda.getText());
+           
+                HashMap filtro2 = new HashMap();
+                filtro2.put("num_vem", lblvenda.getText());
+                //usando a classe JasperPrint para prepara a impressão de um relatorio
+                JasperPrint print = JasperFillManager.fillReport("src/reports/aula5.jasper",
+                        filtro2, conexao);
+                
+               
+                
+                //a linha abaixo exibe o relatório através da classe JasperViewer
+                
+                
+                JasperViewer.viewReport(print, false);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+
+        }
+    }//GEN-LAST:event_jButton9ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1036,8 +1162,11 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel15;

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="aula3" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="82e8c231-787d-43ac-a7b3-673e7114e413">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="175"/>
+	<style name="Titulo" fontName="Arial" fontSize="18" isBold="true"/>
+	<style name="linhaDescricao" fontSize="12" isBold="true"/>
+	<style name="row">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E5E5FF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="num_vem" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     tborc.`idlinha` AS tborc_idlinha,
+     tborc.`tipoProduto` AS tborc_tipoProduto,
+     tborc.`descricao` AS tborc_descricao,
+     tborc.`valor` AS tborc_valor,
+     tborc.`quantidade` AS tborc_quantidade,
+     tborc.`valortotal` AS tborc_valortotal,
+     tborc.`num_vem` AS tborc_num_vem,
+     vendas.`numero_ven` AS vendas_numero_ven,
+     vendas.`total_ven` AS vendas_total_ven,
+     vendas.`data_ven` AS vendas_data_ven,
+     vendas.`idcli` AS vendas_idcli,
+     tbclientes.`idcli` AS tbclientes_idcli,
+     tbclientes.`nome` AS tbclientes_nome,
+     tbclientes.`telefone` AS tbclientes_telefone,
+     tbclientes.`email` AS tbclientes_email,
+     tbclientes.`cep` AS tbclientes_cep,
+     tbclientes.`rua` AS tbclientes_rua,
+     tbclientes.`bairro` AS tbclientes_bairro,
+     tbclientes.`estado` AS tbclientes_estado,
+     tbclientes.`cidade` AS tbclientes_cidade,
+     tbclientes.`cpf` AS tbclientes_cpf,
+     vendas.`obs` AS vendas_obs
+FROM
+     `vendas` vendas INNER JOIN `tborc` tborc ON vendas.`numero_ven` = tborc.`num_vem`
+     INNER JOIN `tbclientes` tbclientes ON vendas.`idcli` = tbclientes.`idcli`
+where tborc.num_vem =$P{num_vem}]]>
+	</queryString>
+	<field name="tborc_idlinha" class="java.lang.Integer"/>
+	<field name="tborc_tipoProduto" class="java.lang.String"/>
+	<field name="tborc_descricao" class="java.lang.String"/>
+	<field name="tborc_valor" class="java.lang.String"/>
+	<field name="tborc_quantidade" class="java.lang.String"/>
+	<field name="tborc_valortotal" class="java.lang.String"/>
+	<field name="tborc_num_vem" class="java.lang.String"/>
+	<field name="vendas_numero_ven" class="java.lang.String"/>
+	<field name="vendas_total_ven" class="java.lang.String"/>
+	<field name="vendas_data_ven" class="java.lang.String"/>
+	<field name="vendas_idcli" class="java.lang.Integer"/>
+	<field name="tbclientes_idcli" class="java.lang.Integer"/>
+	<field name="tbclientes_nome" class="java.lang.String"/>
+	<field name="tbclientes_telefone" class="java.lang.String"/>
+	<field name="tbclientes_email" class="java.lang.String"/>
+	<field name="tbclientes_cep" class="java.lang.String"/>
+	<field name="tbclientes_rua" class="java.lang.String"/>
+	<field name="tbclientes_bairro" class="java.lang.String"/>
+	<field name="tbclientes_estado" class="java.lang.String"/>
+	<field name="tbclientes_cidade" class="java.lang.String"/>
+	<field name="tbclientes_cpf" class="java.lang.String"/>
+	<field name="vendas_obs" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="247" splitType="Stretch">
+			<staticText>
+				<reportElement style="Titulo" x="310" y="40" width="245" height="54" forecolor="#3333FF" uuid="f347fcfb-3422-47e9-aafe-a5933d180ab6"/>
+				<text><![CDATA[S.C Comercio Online de Instrumentos Musicais Ltda.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="394" y="116" width="161" height="98" uuid="9a2d587a-232f-4909-9d0f-1d9aa78c80c4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[CNPJ: 38.595.075/0001-35
+Inscrição Estadual: 90862223-50
+Rua Alferes Poli, 621
+Rebouças
+Curitiba - PR - CEP: 80220-050
+Telefone: (41) 99123-0585]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="124" width="161" height="20" uuid="ad2ebf55-d30a-4161-ada6-ec6ecb5ca3b6"/>
+				<textElement>
+					<font size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Informações do Cliente]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="154" width="220" height="20" uuid="fe1d4b35-ad6a-494a-87f3-5ff1073c5948"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbclientes_nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="174" width="48" height="20" uuid="20d87228-9ca3-4ff2-bb06-b396c66f1e57"/>
+				<text><![CDATA[cpf/cnpj]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="51" y="174" width="125" height="20" uuid="c3b501bb-857a-429f-ab0e-e162f7023e4f"/>
+				<textFieldExpression><![CDATA[$F{tbclientes_cpf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="194" width="79" height="20" uuid="3a121b93-0201-41da-963d-464ad787b078"/>
+				<textFieldExpression><![CDATA[$F{tbclientes_cidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="87" y="194" width="25" height="20" uuid="9364a261-0d07-4911-a474-16470645f548"/>
+				<textFieldExpression><![CDATA[$F{tbclientes_estado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="79" y="194" width="8" height="20" uuid="f87b4805-79dc-4ead-b812-2a4689e910a8"/>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="112" y="194" width="27" height="20" uuid="f0a97639-1f84-4e41-bfa3-cc04e5ded769"/>
+				<text><![CDATA[Cep]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="151" y="194" width="72" height="20" uuid="0acea978-7639-4b77-948f-92cbff6614af"/>
+				<textFieldExpression><![CDATA[$F{tbclientes_cep}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="214" width="60" height="20" uuid="de1440c4-168b-4b6e-9f8d-d506cf98e01e"/>
+				<textElement>
+					<font size="10" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Telefone: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="61" y="214" width="100" height="20" uuid="b4f17f2d-63ce-4c16-b3eb-b7e51f72d6cb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbclientes_telefone}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="199" y="214" width="37" height="20" uuid="9e884be6-4edb-41de-b465-0512ccf2b6ba"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Email:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="236" y="214" width="100" height="20" uuid="673e33a9-d3b0-43f7-a596-5c100bbdb4ad"/>
+				<textFieldExpression><![CDATA[$F{tbclientes_email}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="246" width="555" height="1" uuid="a5a12f9e-bd35-472b-acfb-68514d80e8bb"/>
+			</line>
+			<staticText>
+				<reportElement x="345" y="0" width="100" height="20" uuid="7f07ce3c-921f-4b23-b475-958dda6bbe2f"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Orçamento:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="445" y="0" width="110" height="20" uuid="403bb604-e4ed-43e3-b18f-d4fa8d31833c"/>
+				<textFieldExpression><![CDATA[$F{vendas_numero_ven}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="20" width="223" height="96" uuid="4779a497-fd16-4927-9ef2-e84408ed8e84"/>
+				<imageExpression><![CDATA["C:\\Users\\Plander\\OneDrive\\Ambiente de Trabalho\\outraMR.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="223" y="93" width="171" height="121" uuid="d67cd81b-c9fa-4b83-87ef-9cb70a572d6d"/>
+				<imageExpression><![CDATA["C:\\Users\\Plander\\OneDrive\\Ambiente de Trabalho\\Carimbo SC.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="36" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement style="linhaDescricao" mode="Opaque" x="0" y="0" width="256" height="20" backcolor="#CCFFCC" uuid="948307e0-1326-4a8f-b22d-df6aaa7e3909"/>
+				<text><![CDATA[Descrição do Produto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="linhaDescricao" mode="Opaque" x="256" y="0" width="89" height="20" forecolor="#000000" backcolor="#CCFFCC" uuid="2257cda3-932c-49b0-ae0f-fd0718c08e90"/>
+				<text><![CDATA[modelo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="linhaDescricao" mode="Opaque" x="345" y="0" width="36" height="20" backcolor="#CCFFCC" uuid="13cba475-7975-4772-8b45-e8771c11a7c3"/>
+				<text><![CDATA[Qtd.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="linhaDescricao" mode="Opaque" x="381" y="0" width="74" height="20" backcolor="#CCFFCC" uuid="a7aa0f9b-900e-4188-88d9-cf6d52b995a2"/>
+				<text><![CDATA[Unit.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="linhaDescricao" mode="Opaque" x="455" y="0" width="100" height="20" backcolor="#CCFFCC" uuid="bbbab23e-619f-4104-ac7b-237aa7b8c1e8"/>
+				<text><![CDATA[Valor total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<frame>
+				<reportElement style="row" mode="Opaque" x="0" y="0" width="555" height="20" uuid="c44467a0-f397-4f93-b7c5-e9ab006b20b4"/>
+			</frame>
+			<textField>
+				<reportElement x="0" y="0" width="256" height="20" uuid="63b70e8d-d4ef-431f-9d93-9f0c13aa4270"/>
+				<textFieldExpression><![CDATA[$F{tborc_descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="345" y="0" width="36" height="20" uuid="974d660d-c263-4fbb-a95a-9fdee142de12"/>
+				<textFieldExpression><![CDATA[$F{tborc_quantidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="381" y="0" width="74" height="20" uuid="755d93a9-c647-4b14-8d11-6a1c71b3f9f4"/>
+				<textFieldExpression><![CDATA[$F{tborc_valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="cfec26e0-2306-4d25-b70d-3e052421a6ec"/>
+				<textFieldExpression><![CDATA[$F{tborc_valortotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="256" y="0" width="89" height="20" uuid="450401c4-a2ba-44b4-8417-30c1a66f8055"/>
+				<textFieldExpression><![CDATA[$F{tborc_tipoProduto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="86" splitType="Stretch">
+			<staticText>
+				<reportElement x="381" y="66" width="74" height="20" uuid="250c7122-ecbe-4fd3-bff4-ffb652affc0a"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:      R$]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="455" y="66" width="100" height="20" uuid="6da3668c-6740-426f-99c3-148888f19e16"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vendas_total_ven}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="336" height="86" uuid="dfbde5f8-d585-4b7b-93e6-f3afbbfd8399"/>
+				<textFieldExpression><![CDATA[$F{vendas_obs}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="23" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="23" forecolor="#6699FF" backcolor="#CCFFCC" uuid="08a109b2-fb16-411f-acd0-9f97efb2b8ee"/>
+				<textField>
+					<reportElement x="455" y="3" width="100" height="20" uuid="7ccb5f61-88ba-4316-b8ae-eaa94d039d68"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="0" y="0" width="166" height="20" uuid="2b9ee660-a95a-4bf0-bfa3-ec74d14933a4"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="43" splitType="Stretch"/>
+	</summary>
+</jasperReport>

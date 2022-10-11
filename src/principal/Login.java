@@ -52,12 +52,12 @@ public class Login extends javax.swing.JFrame {
          initComponents();
         conexao = ModuloConexao.conector();
         //System.out.println(conexao);
-        if(conexao != null){
+        /*if(conexao != null){
             lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/dbok.png")));
         }
         else{
             lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/dberror.png")));
-        }
+        }*/
         
     }
     void setProgress(int percent, String informacao){
@@ -200,7 +200,6 @@ public class Login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         painelRodape = new javax.swing.JPanel();
-        lblStatus = new javax.swing.JLabel();
         btnEntrar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -221,9 +220,9 @@ public class Login extends javax.swing.JFrame {
         painelImgCabLayout.setHorizontalGroup(
             painelImgCabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelImgCabLayout.createSequentialGroup()
-                .addGap(112, 112, 112)
+                .addGap(32, 32, 32)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         painelImgCabLayout.setVerticalGroup(
             painelImgCabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,7 +252,7 @@ public class Login extends javax.swing.JFrame {
                 txtUsuarioKeyReleased(evt);
             }
         });
-        jPanel1.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 180, -1));
+        jPanel1.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 180, -1));
 
         txtSenha.setBackground(new java.awt.Color(34, 102, 145));
         txtSenha.setBorder(null);
@@ -279,10 +278,6 @@ public class Login extends javax.swing.JFrame {
 
         painelRodape.setPreferredSize(new java.awt.Dimension(635, 60));
         painelRodape.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 5));
-
-        lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/principal/icon1.png"))); // NOI18N
-        lblStatus.setText(".");
-        painelRodape.add(lblStatus);
 
         btnEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/principal/entrar2.png"))); // NOI18N
         btnEntrar.setBorder(null);
@@ -381,7 +376,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblStatus;
     private javax.swing.JPanel painelCentral;
     private javax.swing.JPanel painelImgCab;
     private javax.swing.JPanel painelLogin;
