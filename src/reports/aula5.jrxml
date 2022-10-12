@@ -71,7 +71,7 @@ where tborc.num_vem = $P{num_vem}]]>
 	<title>
 		<band height="247" splitType="Stretch">
 			<staticText>
-				<reportElement style="Titulo" x="310" y="20" width="245" height="54" forecolor="#3333FF" uuid="f347fcfb-3422-47e9-aafe-a5933d180ab6"/>
+				<reportElement style="Titulo" x="310" y="40" width="245" height="54" forecolor="#3333FF" uuid="f347fcfb-3422-47e9-aafe-a5933d180ab6"/>
 				<text><![CDATA[M.R. Cunha Comercio de Instrumentos Musicais Ltda.]]></text>
 			</staticText>
 			<staticText>
@@ -123,7 +123,7 @@ Telefone: (41) 3323-3636]]></text>
 				<text><![CDATA[Cep]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="151" y="194" width="85" height="20" uuid="0acea978-7639-4b77-948f-92cbff6614af"/>
+				<reportElement x="151" y="194" width="69" height="20" uuid="0acea978-7639-4b77-948f-92cbff6614af"/>
 				<textFieldExpression><![CDATA[$F{tbclientes_cep}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -155,7 +155,7 @@ Telefone: (41) 3323-3636]]></text>
 				<reportElement x="0" y="246" width="555" height="1" uuid="a5a12f9e-bd35-472b-acfb-68514d80e8bb"/>
 			</line>
 			<staticText>
-				<reportElement x="345" y="0" width="100" height="20" uuid="7f07ce3c-921f-4b23-b475-958dda6bbe2f"/>
+				<reportElement x="310" y="10" width="100" height="20" uuid="7f07ce3c-921f-4b23-b475-958dda6bbe2f"/>
 				<textElement>
 					<font size="13" isBold="true"/>
 				</textElement>
@@ -166,11 +166,11 @@ Telefone: (41) 3323-3636]]></text>
 				<imageExpression><![CDATA["C:\\Users\\Plander\\Downloads\\variosinstrumentosassim.png"]]></imageExpression>
 			</image>
 			<image>
-				<reportElement x="256" y="94" width="138" height="120" uuid="38c733f7-541e-4d12-be9e-59e988dd0da3"/>
+				<reportElement x="220" y="94" width="174" height="120" uuid="cfdacee3-5152-46b8-9df4-384936bb0a3a"/>
 				<imageExpression><![CDATA["C:\\Users\\Plander\\OneDrive\\Ambiente de Trabalho\\carinboMR.png"]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="431" y="0" width="124" height="20" uuid="ac411b56-fbac-4209-8eae-24d30ecc87e7"/>
+				<reportElement x="410" y="10" width="100" height="20" uuid="8b85ce8e-f64a-4a6b-9a3c-56ae898447fd"/>
 				<textFieldExpression><![CDATA[$F{tborc_num_vem}]]></textFieldExpression>
 			</textField>
 		</band>
