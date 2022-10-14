@@ -229,6 +229,77 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         }
 
     }
+    
+    private void consultarLinha(){
+       //String sql = "select * from tbclientes where cpf=?";
+        String sql = "select \n" +
+        "VEN.numero_ven,total_ven,data_ven,obs,\n" +
+        "CLI.nome,telefone,email,cep,rua,bairro,estado,cidade,cpf,\n" +
+        "PRO.tipoProduto,descricao,valor,quantidade,valortotal,num_vem\n" +
+        "from vendas as VEN\n" +
+        "inner join tbclientes as CLI\n" +
+        "on (CLI.idcli = VEN.idcli)\n" +
+        "inner join tborc as PRO\n" +
+        "on (VEN.numero_ven = PRO.num_vem)\n" +
+        "\n" +
+        "where num_vem = ?";
+         try {
+            pst = conexao.prepareStatement(sql);
+
+            //pst.setString(1, txtUsuId.getText());
+            pst.setString(1, txtNumOrc.getText());
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                //lblIdcli.setText(rs.getString("idcli"));
+                lblCpf.setText(rs.getString(10));
+                lblNome.setText(rs.getString("nome"));
+                lblTelefone.setText(rs.getString("telefone"));
+                lblEmail.setText(rs.getString("email"));
+                lblCep.setText(rs.getString("cep"));
+                lblRua.setText(rs.getString("rua"));
+                lblBairro.setText(rs.getString("bairro"));
+                lblCidade.setText(rs.getString("cidade"));
+                lblEstado.setText(rs.getString("estado"));
+                lblvenda.setText(rs.getString("num_vem"));
+                
+                DefaultTableModel modelo = (DefaultTableModel)tabela.getModel();
+               
+                //a linha abaixo repete o laço enquanto tem dados no banco de dados..
+                while(rs.next()){
+                    modelo.addRow(new Object[]{
+                        
+                        rs.getString(1),
+                        rs.getString(14),
+                        rs.getString(15),
+                        rs.getString(16),
+                        rs.getString(17),
+                        rs.getString(18),
+                        
+                        } 
+                    
+                     );
+                }
+                
+                
+                
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Cliente não cadastrado");
+                //as linhas abqaixo linpa os campos
+                lblCpf.setText(null);
+                lblTelefone.setText(null);
+                lblEmail.setText(null);
+                lblRua.setText(null);
+                lblBairro.setText(null);
+                lblCidade.setText(null);
+                lblEstado.setText(null);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        
+    }
 
     private void adicionarLnha() {
         String tipoDoProduto;
@@ -365,9 +436,9 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         codigoL3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtCampoObs = new javax.swing.JTextPane();
+        calculo1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jLabel21 = new javax.swing.JLabel();
         lblNome = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
@@ -395,6 +466,8 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        txtNumOrc = new javax.swing.JTextField();
+        jButton10 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         lblvenda = new javax.swing.JLabel();
@@ -462,7 +535,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         jPanel2.add(codigoL7, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 10, -1, 52));
 
         calculo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        calculo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/calculo1.png"))); // NOI18N
+        calculo.setText("+ 10% na tabela");
         calculo.setBorder(null);
         calculo.setContentAreaFilled(false);
         calculo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -474,7 +547,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                 calculoActionPerformed(evt);
             }
         });
-        jPanel2.add(calculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 10, 180, -1));
+        jPanel2.add(calculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 10, 180, 50));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "OPÇÕES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
@@ -557,15 +630,12 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                             .addComponent(excluir)
                             .addComponent(vender)
                             .addComponent(cancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -610,7 +680,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         tabela.setEditingRow(50);
         jScrollPane1.setViewportView(tabela);
 
-        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 790, 170));
+        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 780, 160));
 
         total.setEditable(true);
         total.setBackground(new java.awt.Color(34, 102, 145));
@@ -624,15 +694,29 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         codigoL3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/total.png"))); // NOI18N
         jPanel4.add(codigoL3, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 220, -1, 50));
 
+        txtCampoObs.setText("1- Orçamento válido para 30 dias.\n2- Devido a grande demanda de orçamentos, alguns instrumentos sob\nencomenda, podendo levar de 30 a 60 dias para receber os produtos.\n");
         jScrollPane2.setViewportView(txtCampoObs);
 
         jPanel4.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 550, 80));
 
+        calculo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        calculo1.setText("Corrigir valores");
+        calculo1.setBorder(null);
+        calculo1.setContentAreaFilled(false);
+        calculo1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        calculo1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        calculo1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/calculo2.png"))); // NOI18N
+        calculo1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        calculo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calculo1ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(calculo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 180, 160, 40));
+
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel7.setText("Empresa");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Orquestral", "M.R", "S.C", "Atelier", "Todos", " ", " " }));
+        jLabel7.setText("Procurar orçamento");
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel21.setText("Nome");
@@ -726,26 +810,42 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             }
         });
 
+        txtNumOrc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumOrcActionPerformed(evt);
+            }
+        });
+
+        jButton10.setText("Buscar");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabel23))
+                        .addGap(30, 30, 30))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNumOrc, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton10)
+                        .addGap(18, 18, 18)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel23)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -769,9 +869,9 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jButton3)
+                        .addGap(41, 41, 41)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
@@ -809,12 +909,13 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(jButton6)
                     .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton8)
-                    .addComponent(jLabel11))
+                    .addComponent(jLabel11)
+                    .addComponent(txtNumOrc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEmail)
@@ -865,13 +966,13 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         lblvenda.setText("0");
         jPanel6.add(lblvenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 120, -1));
 
-        jButton7.setText("proximo");
+        jButton7.setText("proximo sem perder os dados");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
             }
         });
-        jPanel6.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
+        jPanel6.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -879,11 +980,11 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1003, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -941,24 +1042,8 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
     private void calculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculoActionPerformed
        FrmListaProd cal = new FrmListaProd();
-       cal.calcular();
-        if (tabela.getRowCount() < 1) {
-            JOptionPane.showMessageDialog(this, "Operação não realizada.", "Erro", JOptionPane.ERROR_MESSAGE);
-        } else if (recebido.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Insira um valor.", "Cobrança", 0,
-                    new ImageIcon(getClass().getResource("/imagens/usuarios/info.png")));
-        } else {
-            double recebi = Double.parseDouble(recebido.getText());
-            double tot = Double.parseDouble(total.getText());
-
-            if (recebi < tot) {
-                JOptionPane.showMessageDialog(this, "Valor Inválido para essa venda", "Compra", 0,
-                        new ImageIcon(getClass().getResource("/imagens/usuarios/info.png")));
-            } else {
-                this.troco.setText(String.valueOf(recebi - tot));
-            }
-            
-        }
+       cal.calcularNovo();
+        
         
     }//GEN-LAST:event_calculoActionPerformed
 
@@ -1029,6 +1114,9 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             v.setData(data.getText());
             v.setIdcli(lblIdcli.getText());
             v.setTxtCampoObs(txtCampoObs.getText());
+            // Chama o método que corrige os calculos e arruma casas decimais...
+            FrmListaProd cal = new FrmListaProd();
+            cal.calcularSalvar();
 
             int opc = VendasSql.registrar(v);
             adicionarLnha();
@@ -1112,12 +1200,6 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         limparCampos();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        FrmListaProd cal = new FrmListaProd();
-         cal.calcular();
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         proximoPedido();
@@ -1152,10 +1234,31 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        FrmListaProd cal = new FrmListaProd();
+        cal.calcular();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void calculo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_calculo1ActionPerformed
+
+    private void txtNumOrcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumOrcActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtNumOrcActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        consultarLinha();
+    }//GEN-LAST:event_jButton10ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton busca;
     private javax.swing.JButton calculo;
+    private javax.swing.JButton calculo1;
     private javax.swing.JButton cancelar;
     private javax.swing.JLabel codigoL3;
     private javax.swing.JLabel codigoL5;
@@ -1164,6 +1267,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
     private app.bolivia.swing.JCTextField data;
     private javax.swing.JButton excluir;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1172,7 +1276,6 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel21;
@@ -1211,6 +1314,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
     public static app.bolivia.swing.JCTextField troco;
     private javax.swing.JTextPane txtCampoObs;
     private javax.swing.JTextField txtCpf;
+    private javax.swing.JTextField txtNumOrc;
     private javax.swing.JButton vender;
     // End of variables declaration//GEN-END:variables
 

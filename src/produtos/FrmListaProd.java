@@ -23,6 +23,7 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
     /**
      * Creates new form FrmListaProd
      */
+    
     public FrmListaProd() {
         initComponents();
         tabela.getTableHeader().setDefaultRenderer(new principal.EstiloTabelaHeader());
@@ -33,45 +34,45 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
         ProdutosSql.listarCat("");
         
         
-        tipo.addItemListener(new ItemListener() {
+        tipo1.addItemListener(new ItemListener() {
 
             @Override
             public void itemStateChanged(ItemEvent ie) {
-                if (tipo.getSelectedIndex() == 0) {
+                if (tipo1.getSelectedIndex() == 0) {
                    
                     ProdutosSql.listarCat("");
                 }
                 
                 
                  
-                 if (tipo.getSelectedIndex() == 1) {
+                 if (tipo1.getSelectedIndex() == 1) {
                    
-                    ProdutosSql.listarCat(tipo.getSelectedItem().toString());
+                    ProdutosSql.listarCat(tipo1.getSelectedItem().toString());
                 }
                  
-                 if (tipo.getSelectedIndex() == 2) {
+                 if (tipo1.getSelectedIndex() == 2) {
                    
-                     ProdutosSql.listarCat(tipo.getSelectedItem().toString());
+                     ProdutosSql.listarCat(tipo1.getSelectedItem().toString());
                 }
                  
-                 if (tipo.getSelectedIndex() == 3) {
+                 if (tipo1.getSelectedIndex() == 3) {
                    
-                     ProdutosSql.listarCat(tipo.getSelectedItem().toString());
+                     ProdutosSql.listarCat(tipo1.getSelectedItem().toString());
                 }
                  
-                 if (tipo.getSelectedIndex() == 4) {
+                 if (tipo1.getSelectedIndex() == 4) {
                    
-                     ProdutosSql.listarCat(tipo.getSelectedItem().toString());
+                     ProdutosSql.listarCat(tipo1.getSelectedItem().toString());
                 }
                  
-                  if (tipo.getSelectedIndex() == 5) {
+                  if (tipo1.getSelectedIndex() == 5) {
                    
-                    ProdutosSql.listarCat(tipo.getSelectedItem().toString());
+                    ProdutosSql.listarCat(tipo1.getSelectedItem().toString());
                 }
                   
-                   if (tipo.getSelectedIndex() == 6) {
+                   if (tipo1.getSelectedIndex() == 6) {
                    
-                     ProdutosSql.listarCat(tipo.getSelectedItem().toString());
+                     ProdutosSql.listarCat(tipo1.getSelectedItem().toString());
                 }
                 
             }
@@ -100,7 +101,66 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
         }
         vendas.FrmCaixa.total.setText("" + Math.rint(total * 100) / 100);
 
+    }   
+    
+        public void calcularNovo() {
+        String pre;
+        String quan;
+        double total = 0;
+        double preco;
+        double porcentagem;
+        int quantidade;
+        double calc = 0.0;
+
+        for (int i = 0; i < vendas.FrmCaixa.tabela.getRowCount(); i++) {
+            pre = vendas.FrmCaixa.tabela.getValueAt(i, 3).toString();
+            quan = vendas.FrmCaixa.tabela.getValueAt(i, 4).toString();
+            preco = Double.parseDouble(pre);
+            
+            
+            porcentagem = preco * 0.10; 
+            preco = preco + porcentagem;
+            
+            quantidade = Integer.parseInt(quan);
+            calc = preco * quantidade;
+            total = total + calc;
+            vendas.FrmCaixa.tabela.setValueAt(Math.rint(calc * 100) / 100, i, 3);
+
+        }
+            
+        
+        
+        //vendas.FrmCaixa.total.setText("" + Math.rint(total * 100) / 100);
+        calcular();
     }
+        public void calcularSalvar() {
+        String pre;
+        String quan;
+        double total = 0;
+        double preco;
+        double porcentagem;
+        int quantidade;
+        double calc = 0.0;
+
+        for (int i = 0; i < vendas.FrmCaixa.tabela.getRowCount(); i++) {
+            pre = vendas.FrmCaixa.tabela.getValueAt(i, 3).toString();
+            quan = vendas.FrmCaixa.tabela.getValueAt(i, 4).toString();
+            preco = Double.parseDouble(pre);
+      
+            
+            quantidade = Integer.parseInt(quan);
+            calc = preco * quantidade;
+            total = total + calc;
+            vendas.FrmCaixa.tabela.setValueAt(Math.rint(calc * 100) / 100, i, 3);
+
+        }
+            
+        
+        
+        //vendas.FrmCaixa.total.setText("" + Math.rint(total * 100) / 100);
+        calcular();
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -117,7 +177,7 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         buscar = new app.bolivia.swing.JCTextField();
         codigoL1 = new javax.swing.JLabel();
-        tipo = new org.bolivia.combo.SComboBoxBlue();
+        tipo1 = new org.bolivia.combo.SComboBoxBlue();
         tipoL = new javax.swing.JLabel();
         enviar = new javax.swing.JButton();
 
@@ -155,6 +215,11 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
         buscar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         buscar.setPhColor(new java.awt.Color(255, 255, 255));
         buscar.setPlaceholder("CÓDIGO/NOME");
+        buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarActionPerformed(evt);
+            }
+        });
         buscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 buscarKeyReleased(evt);
@@ -166,9 +231,10 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
         codigoL1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/produtos/buscarL.png"))); // NOI18N
         jPanel4.add(codigoL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 250, 52));
 
-        tipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TIPO PRODUTO", "BEBIDAS", "LIMPEZA", "CARNES", "CONGELADOS", "LACTINEOS", "VERDURAS" }));
-        tipo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel4.add(tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 183, -1));
+        tipo1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TIPO PRODUTO", "BEBIDAS", "LIMPEZA", "CARNES", "CONGELADOS", "LACTINEOS", "VERDURAS" }));
+        tipo1.setEnabled(false);
+        tipo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jPanel4.add(tipo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 183, -1));
 
         tipoL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/produtos/tipopro.png"))); // NOI18N
         jPanel4.add(tipoL, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 30, -1, 52));
@@ -196,10 +262,12 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,6 +365,10 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_enviarActionPerformed
 
+    private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private app.bolivia.swing.JCTextField buscar;
@@ -306,7 +378,7 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable tabela;
-    private org.bolivia.combo.SComboBoxBlue tipo;
+    private org.bolivia.combo.SComboBoxBlue tipo1;
     private javax.swing.JLabel tipoL;
     // End of variables declaration//GEN-END:variables
 }
