@@ -24,12 +24,14 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -61,6 +63,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
     Connection conexao = null;
     PreparedStatement pst = null;
+     PreparedStatement pst2 = null;
     ResultSet rs = null;
 
     /**
@@ -87,6 +90,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         FrmCaixa.tabela.setDefaultRenderer(Object.class, new principal.EstiloTabelaRenderer());
         
         FrmCaixa.tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
         limparCampos();
     }
     
@@ -161,7 +165,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         }
 
     }
-
+/*
     private void gerarRelatorio(String codVenda) {
         
 
@@ -228,10 +232,11 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
         }
 
-    }
-    
-    private void consultarLinha(){
+    }*/
+    // metodo para consultar orçamento pelo numero do orçamento
+    private void consultarItens(){
        //String sql = "select * from tbclientes where cpf=?";
+        limparCampos();
         String sql = "select \n" +
         "VEN.numero_ven,total_ven,data_ven,obs,\n" +
         "CLI.nome,telefone,email,cep,rua,bairro,estado,cidade,cpf,\n" +
@@ -262,24 +267,49 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                 lblEstado.setText(rs.getString("estado"));
                 lblvenda.setText(rs.getString("num_vem"));
                 
-                DefaultTableModel modelo = (DefaultTableModel)tabela.getModel();
+                
+                DefaultTableModel df = (DefaultTableModel)tabela.getModel();
                
+
                 //a linha abaixo repete o laço enquanto tem dados no banco de dados..
+                int q;
+                ResultSetMetaData rss = rs.getMetaData();
+                q = rss.getColumnCount();
+                
                 while(rs.next()){
+                    Vector v2 = new Vector();
+                    for(int a =0;a<=q;a++){
+                        System.out.println(q);
+                        v2.add(rs.getString(1));
+                        v2.add(rs.getString(14));
+                        v2.add(rs.getString(15));
+                        v2.add(rs.getString(16).replace(",", "."));
+                        v2.add(rs.getString(17));
+                        v2.add(rs.getString(18).replace(",", "."));
+                    }
+                        df.addRow(v2);
+                }
+                
+                
+               /* while(rs.next()){
+                   
                     modelo.addRow(new Object[]{
                         
                         rs.getString(1),
                         rs.getString(14),
                         rs.getString(15),
-                        rs.getString(16),
+                        rs.getString(16).replace(",", "."),
                         rs.getString(17),
-                        rs.getString(18),
+                        rs.getString(18).replace(",", "."),
+                        
                         
                         } 
-                    
                      );
-                }
-                
+                }*/
+                FrmListaProd cal = new FrmListaProd();
+                cal.calcular();
+
+                                            
                 
                 
 
@@ -293,14 +323,65 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                 lblBairro.setText(null);
                 lblCidade.setText(null);
                 lblEstado.setText(null);
+                
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        
+       
+         
+    }
+    private void alterarRow(){
+        /*String sql = "update \n" +
+        "VEN.numero_ven,total_ven,data_ven,obs,\n" +
+        "CLI.nome,telefone,email,cep,rua,bairro,estado,cidade,cpf,\n" +
+        "PRO.tipoProduto,descricao,valor,quantidade,valortotal,num_vem\n" +
+        "from vendas as VEN\n" +
+        "inner join tbclientes as CLI\n" +
+        "on (CLI.idcli = VEN.idcli)\n" +
+        "inner join tborc as PRO\n" +
+        "on (VEN.numero_ven = PRO.num_vem)\n" +
+        "\n" +
+        "where num_vem = ?";*/
+        String sql = "update tborc set tipoProduto = ?,descricao=?,valor=?,quantidade=?,valortotal=? where idlinha=?";
+        String sql2 = "update vendas set total_ven=? where num_vem=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst2 = conexao.prepareStatement(sql2);
+            DefaultTableModel modelo = (DefaultTableModel)tabela.getModel();
+                        
+            int linha = tabela.getSelectedRow();
+            
+            
+            pst.setString(1,modelo.getValueAt(linha,1 ).toString());
+            pst.setString(2,modelo.getValueAt(linha,2).toString());
+            pst.setString(3,modelo.getValueAt(linha,3 ).toString());
+            pst.setString(4,modelo.getValueAt(linha,4 ).toString());
+            pst.setString(5,modelo.getValueAt(linha,5 ).toString());
+            // a estrutura abaixo é usada para confirmar a alteração do colaborador.
+            pst2.setString(1,total.getText());
+            int adicionado = pst.executeUpdate();
+            if (adicionado > 0) {
+                JOptionPane.showMessageDialog(null, "Dados alterado com sucesso!!");
+
+            }else{
+                JOptionPane.showMessageDialog(null, "Entenda o código Carlinhos!!");
+            }
+             int adicionado2 = pst2.executeUpdate();
+            if (adicionado > 0) {
+                JOptionPane.showMessageDialog(null, "Dados alterado com sucesso!!");
+
+            }else{
+                JOptionPane.showMessageDialog(null, "Entenda o código Carlinhos!!");
+            }    
+     
+            
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
         
     }
-
     private void adicionarLnha() {
         String tipoDoProduto;
         String descricao;
@@ -421,14 +502,13 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         codigoL6 = new javax.swing.JLabel();
         troco = new app.bolivia.swing.JCTextField();
         codigoL7 = new javax.swing.JLabel();
-        calculo = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         vender = new javax.swing.JButton();
-        excluir = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        excluir = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
@@ -437,6 +517,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtCampoObs = new javax.swing.JTextPane();
         calculo1 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
@@ -468,6 +549,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         jButton9 = new javax.swing.JButton();
         txtNumOrc = new javax.swing.JTextField();
         jButton10 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         lblvenda = new javax.swing.JLabel();
@@ -534,21 +616,6 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         codigoL7.setToolTipText("CAMBIO");
         jPanel2.add(codigoL7, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 10, -1, 52));
 
-        calculo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        calculo.setText("+ 10% na tabela");
-        calculo.setBorder(null);
-        calculo.setContentAreaFilled(false);
-        calculo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        calculo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        calculo.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/calculo2.png"))); // NOI18N
-        calculo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        calculo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                calculoActionPerformed(evt);
-            }
-        });
-        jPanel2.add(calculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 10, 180, 50));
-
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "OPÇÕES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -563,20 +630,6 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         vender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 venderActionPerformed(evt);
-            }
-        });
-
-        excluir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        excluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/elimina1.png"))); // NOI18N
-        excluir.setBorder(null);
-        excluir.setContentAreaFilled(false);
-        excluir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        excluir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        excluir.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/elimina2.png"))); // NOI18N
-        excluir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        excluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                excluirActionPerformed(evt);
             }
         });
 
@@ -618,6 +671,20 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             }
         });
 
+        excluir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        excluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/elimina1.png"))); // NOI18N
+        excluir.setBorder(null);
+        excluir.setContentAreaFilled(false);
+        excluir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        excluir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        excluir.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/elimina2.png"))); // NOI18N
+        excluir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        excluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                excluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -627,7 +694,6 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(excluir)
                             .addComponent(vender)
                             .addComponent(cancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -635,7 +701,10 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                         .addGap(12, 12, 12)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(excluir)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -669,7 +738,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true
+                false, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -689,6 +758,11 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         total.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         total.setPhColor(new java.awt.Color(255, 255, 255));
         total.setPlaceholder("TOTAL");
+        total.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalActionPerformed(evt);
+            }
+        });
         jPanel4.add(total, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 230, 80, 30));
 
         codigoL3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/total.png"))); // NOI18N
@@ -712,7 +786,15 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                 calculo1ActionPerformed(evt);
             }
         });
-        jPanel4.add(calculo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 180, 160, 40));
+        jPanel4.add(calculo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 180, 160, 40));
+
+        jButton11.setText("Salvar linha alterada");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 150, -1, 20));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -823,6 +905,13 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton12.setText("acrescentar 10%");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -873,6 +962,8 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -934,7 +1025,8 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton12))
                 .addContainerGap())
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel5Layout.createSequentialGroup()
@@ -1040,13 +1132,6 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_buscaActionPerformed
 
-    private void calculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculoActionPerformed
-       FrmListaProd cal = new FrmListaProd();
-       cal.calcularNovo();
-        
-        
-    }//GEN-LAST:event_calculoActionPerformed
-
     private void venderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_venderActionPerformed
         if (tabela.getRowCount() < 1) {
             JOptionPane.showMessageDialog(this, "Impossível realizar a venda.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -1105,7 +1190,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code 
         if (tabela.getRowCount() < 1) {
-            JOptionPane.showMessageDialog(this, "Impossível realizar a venda.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Impossível realizar o orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
         } else {
             Vendas v = new Vendas();
 
@@ -1251,13 +1336,29 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-        consultarLinha();
+        consultarItens();
+        
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        alterarRow();
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void totalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+         FrmListaProd cal = new FrmListaProd();
+        cal.calcularNovo();
+        
+    }//GEN-LAST:event_jButton12ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton busca;
-    private javax.swing.JButton calculo;
     private javax.swing.JButton calculo1;
     private javax.swing.JButton cancelar;
     private javax.swing.JLabel codigoL3;
@@ -1268,6 +1369,8 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
     private javax.swing.JButton excluir;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

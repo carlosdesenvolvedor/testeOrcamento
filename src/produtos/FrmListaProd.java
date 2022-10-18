@@ -88,15 +88,20 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
         double preco;
         int quantidade;
         double calc = 0.0;
-
+        //i é as linhas, 3 valor unit x a quantidade...
         for (int i = 0; i < vendas.FrmCaixa.tabela.getRowCount(); i++) {
+            
             pre = vendas.FrmCaixa.tabela.getValueAt(i, 3).toString();
             quan = vendas.FrmCaixa.tabela.getValueAt(i, 4).toString();
+            
             preco = Double.parseDouble(pre);
             quantidade = Integer.parseInt(quan);
             calc = preco * quantidade;
             total = total + calc;
+            
+            vendas.FrmCaixa.tabela.setValueAt(Math.rint(preco * 100) / 100, i, 3);
             vendas.FrmCaixa.tabela.setValueAt(Math.rint(calc * 100) / 100, i, 5);
+           // vendas.FrmCaixa.tabela.setValueAt(Math.rint(calc * 100) / 100, i, 3);
 
         }
         vendas.FrmCaixa.total.setText("" + Math.rint(total * 100) / 100);
@@ -113,6 +118,7 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
         double calc = 0.0;
 
         for (int i = 0; i < vendas.FrmCaixa.tabela.getRowCount(); i++) {
+            
             pre = vendas.FrmCaixa.tabela.getValueAt(i, 3).toString();
             quan = vendas.FrmCaixa.tabela.getValueAt(i, 4).toString();
             preco = Double.parseDouble(pre);
@@ -122,14 +128,14 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
             preco = preco + porcentagem;
             
             quantidade = Integer.parseInt(quan);
-            calc = preco * quantidade;
+            calc = preco;
             total = total + calc;
+            
+            vendas.FrmCaixa.tabela.setValueAt(Math.rint(preco * 100) / 100, i, 3);
             vendas.FrmCaixa.tabela.setValueAt(Math.rint(calc * 100) / 100, i, 3);
 
         }
             
-        
-        
         //vendas.FrmCaixa.total.setText("" + Math.rint(total * 100) / 100);
         calcular();
     }
@@ -146,12 +152,13 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
             pre = vendas.FrmCaixa.tabela.getValueAt(i, 3).toString();
             quan = vendas.FrmCaixa.tabela.getValueAt(i, 4).toString();
             preco = Double.parseDouble(pre);
-      
             
             quantidade = Integer.parseInt(quan);
+            quantidade = Integer.parseInt(quan);
             calc = preco * quantidade;
-            total = total + calc;
-            vendas.FrmCaixa.tabela.setValueAt(Math.rint(calc * 100) / 100, i, 3);
+            
+            //vendas.FrmCaixa.tabela.setValueAt(Math.rint(calc * 100) / 100, i, 3);
+            vendas.FrmCaixa.tabela.setValueAt(Math.rint(calc * 100) / 100, i, 5);
 
         }
             
