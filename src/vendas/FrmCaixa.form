@@ -1026,14 +1026,14 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton7">
               <Properties>
-                <Property name="text" type="java.lang.String" value="proximo sem perder os dados"/>
+                <Property name="text" type="java.lang.String" value="novo pedido + acrescimo de 10%"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="30" y="80" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="0" y="80" width="220" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>

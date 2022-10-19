@@ -1058,13 +1058,13 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         lblvenda.setText("0");
         jPanel6.add(lblvenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 120, -1));
 
-        jButton7.setText("proximo sem perder os dados");
+        jButton7.setText("novo pedido + acrescimo de 10%");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
             }
         });
-        jPanel6.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+        jPanel6.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 220, -1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1287,12 +1287,21 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        proximoPedido();
+        int confirma = JOptionPane.showConfirmDialog(null, "Deseja criar um novo orçamento com mais 10%", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+            proximoPedido();
+            FrmListaProd cal = new FrmListaProd();
+            cal.calcularNovo();
+            
+
+            
+        }
+       
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-         int confirma = JOptionPane.showConfirmDialog(null, "confima impreção do orcamento", "Atenção", JOptionPane.YES_NO_OPTION);
+        int confirma = JOptionPane.showConfirmDialog(null, "confima impreção do orcamento", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
                 
             try 
@@ -1351,9 +1360,8 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
-         FrmListaProd cal = new FrmListaProd();
+        FrmListaProd cal = new FrmListaProd();
         cal.calcularNovo();
-        
     }//GEN-LAST:event_jButton12ActionPerformed
 
 
