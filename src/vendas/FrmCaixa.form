@@ -67,9 +67,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jPanel5" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel6" min="-2" pref="108" max="-2" attributes="0"/>
+                          <Component id="jPanel6" min="-2" pref="130" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -543,7 +543,7 @@
               <SubComponents>
                 <Component class="javax.swing.JTextPane" name="txtCampoObs">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="1- Or&#xe7;amento v&#xe1;lido para 30 dias.&#xa;2- Devido a grande demanda de or&#xe7;amentos, alguns instrumentos sob&#xa;encomenda, podendo levar de 30 a 60 dias para receber os produtos.&#xa;"/>
+                    <Property name="text" type="java.lang.String" value="1- Or&#xe7;amento v&#xe1;lido para 30 dias.&#xa;2- Devido a grande demanda de or&#xe7;amentos, alguns instrumentos sob&#xa;encomenda, podendo levar de 30 a 60 dias para receber os produtos.&#xa;3 - Valores com 10% de desconto para pagamento &#xe0; vista.&#xa;4 - N&#xe3;o trabalhamos com licita&#xe7;&#xf5;es, somente venda direta.&#xa;"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -658,6 +658,8 @@
                               <Component id="jButton9" min="-2" pref="143" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                               <Component id="jButton12" min="-2" pref="125" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="jButton14" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -731,6 +733,7 @@
                           <Component id="jButton2" alignment="3" min="-2" pref="56" max="-2" attributes="0"/>
                           <Component id="jButton9" alignment="3" min="-2" pref="56" max="-2" attributes="0"/>
                           <Component id="jButton12" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton14" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -968,10 +971,18 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton12">
               <Properties>
-                <Property name="text" type="java.lang.String" value="acrescentar 10%"/>
+                <Property name="text" type="java.lang.String" value="Acrescentar 10%"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton12ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton14">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Desconto &#xe0; vista"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton14ActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -1034,6 +1045,19 @@
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="0" y="80" width="220" height="-1"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton13">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="proximo"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton13ActionPerformed"/>
+              </Events>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="60" y="100" width="110" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>

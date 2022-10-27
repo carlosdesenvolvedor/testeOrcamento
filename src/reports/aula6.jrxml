@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="aula3" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="82e8c231-787d-43ac-a7b3-673e7114e413">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="175"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Titulo" fontName="Arial" fontSize="18" isBold="true"/>
 	<style name="linhaDescricao" fontSize="12" isBold="true"/>
 	<style name="row">
@@ -166,12 +166,12 @@ Telefone: (41) 99123-0585]]></text>
 				<textFieldExpression><![CDATA[$F{vendas_numero_ven}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="0" y="20" width="223" height="96" uuid="4779a497-fd16-4927-9ef2-e84408ed8e84"/>
-				<imageExpression><![CDATA["C:\\Users\\Plander\\OneDrive\\Ambiente de Trabalho\\outraMR.png"]]></imageExpression>
+				<reportElement x="220" y="85" width="172" height="129" uuid="01aa004e-7948-454b-889f-6f1f85d56ed5"/>
+				<imageExpression><![CDATA["C:\\Users\\pirat\\Desktop\\carlos\\Arquivos\\Arquivos Sistema Finalizado\\sistema\\src\\imagens\\principal\\Carimbo SC.png"]]></imageExpression>
 			</image>
 			<image>
-				<reportElement x="223" y="93" width="171" height="121" uuid="d67cd81b-c9fa-4b83-87ef-9cb70a572d6d"/>
-				<imageExpression><![CDATA["C:\\Users\\Plander\\OneDrive\\Ambiente de Trabalho\\Carimbo SC.png"]]></imageExpression>
+				<reportElement x="0" y="4" width="223" height="120" uuid="7fae6e53-0440-42d6-8127-f4cdb81e3c8d"/>
+				<imageExpression><![CDATA["C:\\Users\\pirat\\Desktop\\carlos\\Arquivos\\Arquivos Sistema Finalizado\\sistema\\src\\imagens\\principal\\SC logotipo.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>

@@ -8,6 +8,7 @@ package produtos;
 import java.awt.Cursor;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -87,6 +88,7 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
         double total = 0;
         double preco;
         int quantidade;
+        double totalven;
         double calc = 0.0;
         //i é as linhas, 3 valor unit x a quantidade...
         for (int i = 0; i < vendas.FrmCaixa.tabela.getRowCount(); i++) {
@@ -105,6 +107,15 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
 
         }
         vendas.FrmCaixa.total.setText("" + Math.rint(total * 100) / 100);
+        String padrao = "###,###.00";
+        DecimalFormat df = new DecimalFormat(padrao);
+        df.applyPattern(padrao);
+        totalven = Double.parseDouble(vendas.FrmCaixa.total.getText());
+        //System.out.println(df.format(total));
+        
+        Double novo = total;
+        
+        vendas.FrmCaixa.total.setText(df.format(total));
 
     }   
     
@@ -132,7 +143,38 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
             total = total + calc;
             
             vendas.FrmCaixa.tabela.setValueAt(Math.rint(preco * 100) / 100, i, 3);
-            vendas.FrmCaixa.tabela.setValueAt(Math.rint(calc * 100) / 100, i, 3);
+            vendas.FrmCaixa.tabela.setValueAt(Math.rint(calc * 100) / 100, i, 5);
+
+        }
+            
+        //vendas.FrmCaixa.total.setText("" + Math.rint(total * 100) / 100);
+        calcular();
+    }
+        public void calcularDesconto() {
+        String pre;
+        String quan;
+        double total = 0;
+        double preco;
+        double porcentagem;
+        int quantidade;
+        double calc = 0.0;
+
+        for (int i = 0; i < vendas.FrmCaixa.tabela.getRowCount(); i++) {
+            
+            pre = vendas.FrmCaixa.tabela.getValueAt(i, 3).toString();
+            quan = vendas.FrmCaixa.tabela.getValueAt(i, 4).toString();
+            preco = Double.parseDouble(pre);
+            
+            
+            porcentagem = preco * 0.10; 
+            preco = preco - porcentagem;
+            
+            quantidade = Integer.parseInt(quan);
+            calc = preco;
+            total = total + calc;
+            
+            vendas.FrmCaixa.tabela.setValueAt(Math.rint(preco * 100) / 100, i, 3);
+            vendas.FrmCaixa.tabela.setValueAt(Math.rint(calc * 100) / 100, i, 5);
 
         }
             

@@ -550,10 +550,12 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         txtNumOrc = new javax.swing.JTextField();
         jButton10 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         lblvenda = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Caixa");
@@ -768,7 +770,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         codigoL3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/total.png"))); // NOI18N
         jPanel4.add(codigoL3, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 220, -1, 50));
 
-        txtCampoObs.setText("1- Orçamento válido para 30 dias.\n2- Devido a grande demanda de orçamentos, alguns instrumentos sob\nencomenda, podendo levar de 30 a 60 dias para receber os produtos.\n");
+        txtCampoObs.setText("1- Orçamento válido para 30 dias.\n2- Devido a grande demanda de orçamentos, alguns instrumentos sob\nencomenda, podendo levar de 30 a 60 dias para receber os produtos.\n3 - Valores com 10% de desconto para pagamento à vista.\n4 - Não trabalhamos com licitações, somente venda direta.\n");
         jScrollPane2.setViewportView(txtCampoObs);
 
         jPanel4.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 550, 80));
@@ -905,10 +907,17 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton12.setText("acrescentar 10%");
+        jButton12.setText("Acrescentar 10%");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton12ActionPerformed(evt);
+            }
+        });
+
+        jButton14.setText("Desconto à vista");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
             }
         });
 
@@ -964,6 +973,8 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(52, 52, 52)
                         .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
+                        .addComponent(jButton14)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1026,7 +1037,8 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton12))
+                    .addComponent(jButton12)
+                    .addComponent(jButton14))
                 .addContainerGap())
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel5Layout.createSequentialGroup()
@@ -1066,6 +1078,14 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         });
         jPanel6.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 220, -1));
 
+        jButton13.setText("proximo");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 110, -1));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1089,7 +1109,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1360,9 +1380,33 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
-        FrmListaProd cal = new FrmListaProd();
-        cal.calcularNovo();
+        int confirma = JOptionPane.showConfirmDialog(null, "Deseja acrescentar 10% a mais no orçamento Kheciler? ", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+            FrmListaProd cal = new FrmListaProd();
+            cal.calcularNovo();
+            
+
+            
+        }
+       
     }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+        proximoPedido();
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        // TODO add your handling code here:
+        int confirma = JOptionPane.showConfirmDialog(null, "Deseja aplicar o desconto de à vista Kheciller? referente à 10%?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+            FrmListaProd cal = new FrmListaProd();
+        cal.calcularDesconto();
+            
+
+            
+        }
+    }//GEN-LAST:event_jButton14ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1379,6 +1423,8 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

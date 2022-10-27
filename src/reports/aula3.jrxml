@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="aula3" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="82e8c231-787d-43ac-a7b3-673e7114e413">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="176"/>
+	<property name="ireport.y" value="179"/>
 	<style name="Titulo" fontName="Arial" fontSize="18" isBold="true"/>
 	<style name="linhaDescricao" fontSize="12" isBold="true"/>
 	<style name="row">
@@ -65,6 +65,10 @@ where tborc.num_vem =$P{num_vem}]]>
 	<field name="tbclientes_cidade" class="java.lang.String"/>
 	<field name="tbclientes_cpf" class="java.lang.String"/>
 	<field name="vendas_obs" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.String">
+		<variableExpression><![CDATA[$F{vendas_total_ven}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{vendas_total_ven}]]></initialValueExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -85,10 +89,6 @@ Rebouças
 Curitiba - PR - CEP: 80220-050
 Telefone: (41) 9 9896-1818]]></text>
 			</staticText>
-			<image>
-				<reportElement x="0" y="0" width="299" height="94" uuid="58132896-4f17-48a6-aaf3-2ac01224b00e"/>
-				<imageExpression><![CDATA["C:\\Users\\Plander\\Downloads\\cf-series_kv_106e7806e008ec8a62cde311502c281a.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="0" y="124" width="161" height="20" uuid="ad2ebf55-d30a-4161-ada6-ec6ecb5ca3b6"/>
 				<textElement>
@@ -171,8 +171,12 @@ Telefone: (41) 9 9896-1818]]></text>
 				<textFieldExpression><![CDATA[$F{vendas_numero_ven}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="236" y="116" width="158" height="98" uuid="6847a4f2-3c06-442a-8275-3aa692fe75da"/>
-				<imageExpression><![CDATA["C:\\Users\\Plander\\OneDrive\\Ambiente de Trabalho\\fotoCerta.png"]]></imageExpression>
+				<reportElement x="0" y="0" width="151" height="106" uuid="3883f24d-0734-4abd-9f7e-1fb86b71ada4"/>
+				<imageExpression><![CDATA["C:\\Users\\pirat\\Desktop\\carlos\\Arquivos\\Arquivos Sistema Finalizado\\sistema\\src\\imagens\\principal\\outraMR.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="236" y="91" width="158" height="123" uuid="1aa5d670-bd5a-45a0-9c6a-c9e08bf869c5"/>
+				<imageExpression><![CDATA["C:\\Users\\pirat\\Desktop\\carlos\\Arquivos\\Arquivos Sistema Finalizado\\sistema\\src\\imagens\\principal\\fotoCerta.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -204,7 +208,7 @@ Telefone: (41) 9 9896-1818]]></text>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<frame>
 				<reportElement style="row" mode="Opaque" x="0" y="0" width="555" height="20" uuid="c44467a0-f397-4f93-b7c5-e9ab006b20b4"/>
 			</frame>
@@ -220,7 +224,7 @@ Telefone: (41) 9 9896-1818]]></text>
 				<reportElement x="381" y="0" width="74" height="20" uuid="755d93a9-c647-4b14-8d11-6a1c71b3f9f4"/>
 				<textFieldExpression><![CDATA[$F{tborc_valor}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="###0.00">
 				<reportElement x="455" y="0" width="100" height="20" uuid="cfec26e0-2306-4d25-b70d-3e052421a6ec"/>
 				<textFieldExpression><![CDATA[$F{tborc_valortotal}]]></textFieldExpression>
 			</textField>
@@ -232,23 +236,20 @@ Telefone: (41) 9 9896-1818]]></text>
 	</detail>
 	<columnFooter>
 		<band height="86" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="336" height="86" uuid="dfbde5f8-d585-4b7b-93e6-f3afbbfd8399"/>
+				<textFieldExpression><![CDATA[$F{vendas_obs}]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="381" y="66" width="74" height="20" uuid="250c7122-ecbe-4fd3-bff4-ffb652affc0a"/>
+				<reportElement x="381" y="0" width="74" height="20" uuid="250c7122-ecbe-4fd3-bff4-ffb652affc0a"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total:      R$]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="455" y="66" width="100" height="20" uuid="6da3668c-6740-426f-99c3-148888f19e16"/>
-				<textElement>
-					<font size="12" isBold="true"/>
-				</textElement>
+				<reportElement x="455" y="0" width="88" height="20" uuid="99f523db-0245-4b13-a2f5-c5b1100a3920"/>
 				<textFieldExpression><![CDATA[$F{vendas_total_ven}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="0" width="336" height="86" uuid="dfbde5f8-d585-4b7b-93e6-f3afbbfd8399"/>
-				<textFieldExpression><![CDATA[$F{vendas_obs}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>
