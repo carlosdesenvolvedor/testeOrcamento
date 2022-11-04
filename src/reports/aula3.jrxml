@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="aula3" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="82e8c231-787d-43ac-a7b3-673e7114e413">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="179"/>
+	<property name="ireport.y" value="142"/>
 	<style name="Titulo" fontName="Arial" fontSize="18" isBold="true"/>
 	<style name="linhaDescricao" fontSize="12" isBold="true"/>
 	<style name="row">
@@ -73,7 +73,7 @@ where tborc.num_vem =$P{num_vem}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="247" splitType="Stretch">
+		<band height="256" splitType="Stretch">
 			<staticText>
 				<reportElement style="Titulo" x="310" y="40" width="245" height="54" forecolor="#3333FF" uuid="f347fcfb-3422-47e9-aafe-a5933d180ab6"/>
 				<text><![CDATA[ORQUESTRAL PRODUTOS MUSICAIS LTDA EPP -
@@ -181,7 +181,7 @@ Telefone: (41) 9 9896-1818]]></text>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="37" splitType="Stretch"/>
+		<band height="2" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
@@ -208,30 +208,30 @@ Telefone: (41) 9 9896-1818]]></text>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="21" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<frame>
 				<reportElement style="row" mode="Opaque" x="0" y="0" width="555" height="20" uuid="c44467a0-f397-4f93-b7c5-e9ab006b20b4"/>
+				<textField pattern="###0.00">
+					<reportElement x="455" y="0" width="100" height="20" uuid="cfec26e0-2306-4d25-b70d-3e052421a6ec"/>
+					<textFieldExpression><![CDATA[$F{tborc_valortotal}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="381" y="0" width="74" height="20" uuid="755d93a9-c647-4b14-8d11-6a1c71b3f9f4"/>
+					<textFieldExpression><![CDATA[$F{tborc_valor}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="345" y="0" width="36" height="20" uuid="974d660d-c263-4fbb-a95a-9fdee142de12"/>
+					<textFieldExpression><![CDATA[$F{tborc_quantidade}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="256" y="0" width="89" height="20" uuid="450401c4-a2ba-44b4-8417-30c1a66f8055"/>
+					<textFieldExpression><![CDATA[$F{tborc_tipoProduto}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="256" height="20" uuid="63b70e8d-d4ef-431f-9d93-9f0c13aa4270"/>
+					<textFieldExpression><![CDATA[$F{tborc_descricao}]]></textFieldExpression>
+				</textField>
 			</frame>
-			<textField>
-				<reportElement x="0" y="0" width="256" height="20" uuid="63b70e8d-d4ef-431f-9d93-9f0c13aa4270"/>
-				<textFieldExpression><![CDATA[$F{tborc_descricao}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="345" y="0" width="36" height="20" uuid="974d660d-c263-4fbb-a95a-9fdee142de12"/>
-				<textFieldExpression><![CDATA[$F{tborc_quantidade}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="381" y="0" width="74" height="20" uuid="755d93a9-c647-4b14-8d11-6a1c71b3f9f4"/>
-				<textFieldExpression><![CDATA[$F{tborc_valor}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00">
-				<reportElement x="455" y="0" width="100" height="20" uuid="cfec26e0-2306-4d25-b70d-3e052421a6ec"/>
-				<textFieldExpression><![CDATA[$F{tborc_valortotal}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="256" y="0" width="89" height="20" uuid="450401c4-a2ba-44b4-8417-30c1a66f8055"/>
-				<textFieldExpression><![CDATA[$F{tborc_tipoProduto}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<columnFooter>
@@ -248,7 +248,10 @@ Telefone: (41) 9 9896-1818]]></text>
 				<text><![CDATA[Total:      R$]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="455" y="0" width="88" height="20" uuid="99f523db-0245-4b13-a2f5-c5b1100a3920"/>
+				<reportElement x="455" y="0" width="100" height="20" uuid="99f523db-0245-4b13-a2f5-c5b1100a3920"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{vendas_total_ven}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -263,7 +266,7 @@ Telefone: (41) 9 9896-1818]]></text>
 					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField pattern="EEEEE dd MMMMM yyyy">
-					<reportElement x="0" y="0" width="166" height="20" uuid="2b9ee660-a95a-4bf0-bfa3-ec74d14933a4"/>
+					<reportElement x="0" y="3" width="166" height="20" uuid="2b9ee660-a95a-4bf0-bfa3-ec74d14933a4"/>
 					<textElement textAlignment="Center"/>
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>

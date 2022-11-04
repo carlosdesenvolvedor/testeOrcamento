@@ -90,6 +90,9 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
         int quantidade;
         double totalven;
         double calc = 0.0;
+        String padrao = "###,##0.00";
+        
+        
         //i é as linhas, 3 valor unit x a quantidade...
         for (int i = 0; i < vendas.FrmCaixa.tabela.getRowCount(); i++) {
             
@@ -107,15 +110,15 @@ public class FrmListaProd extends javax.swing.JInternalFrame {
 
         }
         vendas.FrmCaixa.total.setText("" + Math.rint(total * 100) / 100);
-        String padrao = "###,###.00";
         DecimalFormat df = new DecimalFormat(padrao);
         df.applyPattern(padrao);
-        totalven = Double.parseDouble(vendas.FrmCaixa.total.getText());
-        //System.out.println(df.format(total));
         
-        Double novo = total;
         
         vendas.FrmCaixa.total.setText(df.format(total));
+        //totalven = Double.parseDouble(vendas.FrmCaixa.total.getText());
+        //System.out.println(df.format(total));
+        
+        //Double novo = total; estava em cima de
 
     }   
     

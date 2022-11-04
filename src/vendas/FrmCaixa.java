@@ -278,7 +278,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
                 
                 while(rs.next()){
                     Vector v2 = new Vector();
-                    for(int a =0;a<=q;a++){
+                    for(int a =1;a<=q;a++){
                         System.out.println(q);
                         v2.add(rs.getString(1));
                         v2.add(rs.getString(14));
@@ -503,12 +503,11 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         troco = new app.bolivia.swing.JCTextField();
         codigoL7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        vender = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         excluir = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
@@ -558,6 +557,7 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         jButton13 = new javax.swing.JButton();
 
         setClosable(true);
+        setMaximizable(true);
         setTitle("Caixa");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -621,20 +621,6 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "OPÇÕES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-        vender.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        vender.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/venda1.png"))); // NOI18N
-        vender.setBorder(null);
-        vender.setContentAreaFilled(false);
-        vender.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        vender.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        vender.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/venda2.png"))); // NOI18N
-        vender.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        vender.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                venderActionPerformed(evt);
-            }
-        });
-
         cancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas/cancela1.png"))); // NOI18N
         cancelar.setBorder(null);
@@ -646,16 +632,6 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
         cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelarActionPerformed(evt);
-            }
-        });
-
-        jButton1.setBackground(new java.awt.Color(0, 204, 204));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Salvar Orçamento");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
             }
         });
 
@@ -687,26 +663,36 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(0, 204, 204));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Salvar Orçamento");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(vender)
-                            .addComponent(cancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(excluir))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(excluir)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jButton1))
+                            .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -714,15 +700,13 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(vender)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(excluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cancelar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addComponent(jButton4)
                 .addContainerGap(62, Short.MAX_VALUE))
         );
@@ -1152,26 +1136,6 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_buscaActionPerformed
 
-    private void venderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_venderActionPerformed
-        if (tabela.getRowCount() < 1) {
-            JOptionPane.showMessageDialog(this, "Impossível realizar a venda.", "Erro", JOptionPane.ERROR_MESSAGE);
-        } else {
-            Vendas v = new Vendas();
-//            v.setPrimaryKey(lblvenda.getText());
-            v.setTotal(total.getText());
-            v.setData(data.getText());
-            v.setIdcli(lblIdcli.getText());
-
-            int opc = VendasSql.registrar(v);
-            if (opc != 0) {
-                limparCampos();
-                JOptionPane.showMessageDialog(this, "Orçamento efeturado.", "orçamento", 0,
-                        new ImageIcon(getClass().getResource("/imagens/usuarios/info.png")));
-
-            }
-        }
-    }//GEN-LAST:event_venderActionPerformed
-
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
         if (tabela.getRowCount() > 0) {
             DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
@@ -1403,8 +1367,6 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
             FrmListaProd cal = new FrmListaProd();
         cal.calcularDesconto();
             
-
-            
         }
     }//GEN-LAST:event_jButton14ActionPerformed
 
@@ -1472,7 +1434,6 @@ public class FrmCaixa extends javax.swing.JInternalFrame {
     private javax.swing.JTextPane txtCampoObs;
     private javax.swing.JTextField txtCpf;
     private javax.swing.JTextField txtNumOrc;
-    private javax.swing.JButton vender;
     // End of variables declaration//GEN-END:variables
 
     private static class MashMap {
